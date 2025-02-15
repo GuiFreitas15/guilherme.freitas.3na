@@ -1,0 +1,19 @@
+# Ignorar diretórios de compilação
+/target
+**/target/
+
+# Arquivos de bloqueio do Cargo
+Cargo.lock
+
+# Ignorar dependências geradas automaticamente
+**/node_modules/
+
+# Ignorar arquivos temporários do editor
+*.rs.bk
+*.swp
+*.swo
+.idea/
+.vscode/
+
+# Ignorar arquivos de debug do Rust
+*.dSYM
