@@ -12,3 +12,8 @@ mod tests {
         assert_eq!(result, 4);
     }
 }
+
+// Função pública chamada 'reverse' que inverte uma string
+pub fn reverse(s: &str) -> String {
+    s.chars().rev().collect()
+}
