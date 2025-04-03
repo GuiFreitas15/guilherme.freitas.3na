@@ -1,8 +1,10 @@
+// src/lib.rs
+
 pub unsafe fn multiply_array(ptr: *const i32, len: usize) -> i32 {
     let mut product = 1;
-    for i in 0..len {
-        unsafe {  // Use o bloco unsafe aqui
-            product *= *ptr.offset(i as isize);
+    for i in 0..len {  
+        unsafe {
+            product *= *ptr.add(i);
         }
     }
     product
@@ -19,3 +21,4 @@ mod tests {
         assert_eq!(product, 24);
     }
 }
+
