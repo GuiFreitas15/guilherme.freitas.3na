@@ -1,0 +1,74 @@
+body {
+    background: #f4f4f4;
+    padding: 20px;
+    font-family: Arial, sans-serif;
+  }
+  
+  h1 {
+    text-align: center;
+    margin-bottom: 30px;
+  }
+  
+  #form-area {
+    max-width: 600px;
+    margin: 0 auto 20px auto;
+    display: none;
+  }
+  
+  #add-btn-container {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 20px;
+  }
+  
+  .reminder-card {
+    max-width: 600px;
+    margin: 10px auto;
+  }
+  
+  .completed-item {
+    text-decoration: line-through;
+    color: gray;
+  }
+  
+  .card-header {
+    color: #fff;
+    font-size: 1.5rem;
+    text-align: center;
+  }
+  
+  .card.completed {
+    opacity: 0.5;
+  }
+  
+  .card.completed .card-header,
+  .card.completed .card-body p,
+  .card.completed .form-check-label {
+    text-decoration: line-through;
+  }
+  body.dark {
+    background-color: #121212;
+    color: #ffffff;
+  }
+
+   body.dark .list-group-item {
+  background-color: #2c2c2c;
+  color: #ffffff;
+  border-color: #444;
+}
+  
+  .card.dark {
+    background-color: #1e1e1e;
+  }
+  
+  .btn-outline-secondary.dark-mode {
+    border-color: #ffffff;
+    color: #ffffff;
+  }
+  
+  .reminder-card {
+    border: 1px solid #ccc;
+    padding: 1rem;
+    margin-bottom: 1rem;
+    border-radius: 0.5rem;
+  }
