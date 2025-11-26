@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Login - Lembraê</title>
+  
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+  
+  <link rel="stylesheet" href="css/login.css">
+</head>
+
+<body class="my-login-page body-enter">
+
+  <div class="theme-switcher-wrapper">
+    <label class="theme-switch">
+        <input type="checkbox" id="theme-toggle">
+        <span class="slider round"></span>
+    </label>
+  </div>
+
+  <main>
+    <div class="card-wrapper">
+
+      <div class="brand">
+        <img src="img/logo.png" alt="Logo da Lembraê">
+      </div>
+
+      <div class="card fat card-login">
+        <div class="card-body">
+          <h4 class="card-title">Login</h4>
+          
+          <form id="loginForm" novalidate>
+
+            <div class="form-group">
+              <label for="email">E-mail</label>
+              <input id="email" type="email" class="form-control" name="email" placeholder="seu.email@exemplo.com" required autofocus autocomplete="email">
+              <div class="invalid-feedback" id="email-error" aria-live="polite"></div>
+            </div>
+
+            <div class="form-group">
+              <label for="password">Senha</label>
+              <input id="password" type="password" class="form-control" name="password" placeholder="Sua senha" required autocomplete="current-password">
+              <div class="invalid-feedback" id="password-error" aria-live="polite"></div>
+            </div>
+            
+            <div class="form-group d-flex align-items-center justify-content-between">
+                <div class="custom-control custom-checkbox">
+                    <input type="checkbox" class="custom-control-input" id="remember" name="remember">
+                    <label class="custom-control-label" for="remember">Lembrar-me</label>
+                </div>
+                <a href="recuperacao.html" class="forgot-link">Esqueceu a senha?</a>
+                
+            </div>
+
+            <div class="form-group m-0">
+              <button type="submit" class="btn btn-primary btn-block">
+                Entrar
+              </button>
+            </div>
+            
+            <div class="mt-4 text-center">
+              Não tem conta? <a href="register.html">Criar uma</a>
+            </div>
+
+          </form>
+        </div>
+      </div>
+
+      <div class="footer">
+        Copyright &copy; 2025 &mdash; Lembraê
+      </div>
+      
+    </div> </main> <script src="js/login.js"></script>
+  
+</body>

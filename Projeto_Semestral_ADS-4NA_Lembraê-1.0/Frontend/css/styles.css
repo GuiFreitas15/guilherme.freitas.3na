@@ -1,0 +1,1327 @@
+/*
+ * ----------------------------------------------------
+ * 1. VARIÁVEIS GLOBAIS (CUSTOM PROPERTIES)
+ * ----------------------------------------------------
+ */
+
+:root {
+    /* Cores Globais - CLARO */
+    --cor-fundo: #dbe6ef;
+    --cor-fundo-card: #eaf3fb;
+    --cor-fundo-input: #f2faff;
+    --cor-texto-principal: #212529;
+    --cor-texto-secundario: #6c757d;
+    --cor-borda: #dcdcdc;
+    --cor-sombra: 0 15px 40px rgba(0, 0, 0, 0.1);
+    --cor-sombra-hover: 0 20px 50px rgba(0, 0, 0, 0.15);
+    --cor-acento-principal: #0d6efd;
+    --cor-acento-hover: #0b5ed7;
+    --cor-perigo: #dc3545;
+
+    /* Prioridades */
+    --cor-prioridade-baixa: #0d6efd;
+    --cor-prioridade-media: #ffc107;
+    --cor-prioridade-alta: #dc3545;
+
+    /* Tipografia e Estilo */
+    --fonte-principal: 'Inter', sans-serif;
+    --tempo-transicao: 0.35s;
+    --raio-borda: 16px;
+}
+
+/*
+ * ----------------------------------------------------
+ * 2. MODO ESCURO (THEMING)
+ * ----------------------------------------------------
+ */
+
+body.dark {
+    --cor-fundo: #0d1117;
+    --cor-fundo-card: #161b22;
+    --cor-fundo-input: #21262d;
+    --cor-texto-principal: #c9d1d9;
+    --cor-texto-secundario: #9e928b;
+    --cor-borda: #30363d;
+    --cor-sombra: 0 15px 40px rgba(100, 100, 100, 0.03);
+    --cor-sombra-hover: 0 20px 50px rgba(215, 215, 215, 0.05);
+}
+
+/* * ✅ CORREÇÃO: A 'background-image' foi REMOVIDA desta regra geral.
+ * Agora ela apenas define as cores de fundo, borda e texto
+ * para todos os inputs no modo escuro.
+ */
+body.dark .form-control,
+body.dark input,
+body.dark textarea,
+body.dark select {
+    border-color: var(--cor-borda);
+    background-color: var(--cor-fundo-input);
+    color: var(--cor-texto-principal);
+}
+
+/*
+ * ----------------------------------------------------
+ * 3. ESTRUTURA E BASE
+ * ----------------------------------------------------
+ */
+
+body {
+    background: var(--cor-fundo);
+    color: var(--cor-texto-principal);
+    padding: 100px 20px 40px 20px;
+    min-height: 100vh;
+    font-family: var(--fonte-principal);
+    line-height: 1.6;
+    transition: background-color var(--tempo-transicao), color var(--tempo-transicao);
+}
+
+h1 {
+    text-align: center;
+    margin-bottom: 50px;
+    font-weight: 800;
+    letter-spacing: -1.5px;
+    font-size: 2.5rem;
+}
+
+#main-content-wrapper {
+    max-width: 1200px; 
+    margin: 0 auto;
+    width: 100%;
+}
+
+/* Ajuste nos Inputs */
+.form-control,
+input:not([type="checkbox"]):not([type="color"]):not([type="submit"]):not([type="button"]):not(.btn),
+textarea,
+select {
+    width: 100%; 
+    background-color: var(--cor-fundo-input);
+    color: var(--cor-texto-principal);
+    border: 1px solid var(--cor-borda);
+    border-radius: 10px;
+    transition: border-color var(--tempo-transicao), box-shadow var(--tempo-transicao);
+    font-size: 1rem;
+}
+
+/* Estilização customizada do <select> (Bug 4) */
+select {
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none; /* Remove o estilo padrão do navegador */
+
+    /* Seta customizada (Modo Claro) */
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' fill='%236c757d' viewBox='0 0 16 16'%3E%3Cpath fill-rule='evenodd' d='M1.646 4.646a.5.5 0 0 1 .708 0L8 10.293l5.646-5.647a.5.5 0 0 1 .708.708l-6 6a.5.5 0 0 1-.708 0l-6-6a.5.5 0 0 1 0-.708z'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 1rem center; /* Posição da seta */
+    background-size: 16px 16px; /* Tamanho da seta */
+    padding-right: 2.5rem !important;
+}
+
+/* * ✅ CORREÇÃO: Adicionada uma regra específica para a seta
+ * do 'select' no modo escuro.
+ */
+body.dark select {
+     background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' fill='%238b949e' viewBox='0 0 16 16'%3E%3Cpath fill-rule='evenodd' d='M1.646 4.646a.5.5 0 0 1 .708 0L8 10.293l5.646-5.647a.5.5 0 0 1 .708.708l-6 6a.5.5 0 0 1-.708 0l-6-6a.5.5 0 0 1 0-.708z'/%3E%3C/svg%3E");
+}
+
+
+.form-control:focus,
+input:focus,
+textarea:focus,
+select:focus {
+    border-color: var(--cor-acento-principal);
+    box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075), 0 0 0 3px rgba(13, 110, 253, 0.2);
+    outline: none;
+}
+
+/*
+ * ----------------------------------------------------
+ * 4. LAYOUT E ÁREAS DE CONTEÚDO (FORMULÁRIO MODAL)
+ * ----------------------------------------------------
+ */
+
+#form-area {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    max-width: 600px;
+    width: 90%;
+    max-height: 90vh;
+    height: auto;
+    overflow-y: auto; /* Permite rolagem SÓ vertical */
+    overflow-x: hidden; /* Impede a barra horizontal */
+    padding: '30px';
+    background-color: var(--cor-fundo-card);
+    border-radius: var(--raio-borda);
+    box-shadow: var(--cor-sombra);
+    z-index: 1050; 
+    opacity: 0;
+    pointer-events: none;
+    transform: translate(-50%, -50%) scale(0.9);
+    transition: opacity var(--tempo-transicao), transform var(--tempo-transicao);
+}
+
+#form-area.show {
+    opacity: 1;
+    transform: translate(-50%, -50%) scale(1); 
+    pointer-events: auto;
+}
+
+@media (max-width: 650px) {
+    #form-area {
+        max-height: 100vh;
+        padding: 15px;
+    }
+}
+
+#add-btn-container {
+    max-width: 600px;
+    margin: 0 auto 40px auto;
+    display: flex;
+    justify-content: center;
+}
+
+#reminder-list {
+    max-width: 1200px;
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 30px;
+    padding: 0 10px;
+}
+
+@media (max-width: 767px) {
+    #reminder-list {
+        grid-template-columns: 1fr;
+        gap: 20px;
+    }
+}
+
+@media (min-width: 768px) and (max-width: 1023px) {
+    #reminder-list {
+        grid-template-columns: repeat(2, 1fr);
+        max-width: 800px;
+        gap: 25px;
+    }
+}
+
+.d-flex.justify-content-end.mb-3 {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 10px;
+    justify-content: space-between !important;
+}
+
+/*
+ * ----------------------------------------------------
+ * 5. COMPONENTES (CARDS) - PROFUNDIDADE E BARRA SUPERIOR
+ * ----------------------------------------------------
+ */
+
+/* CARD FLEX CORRETAMENTE */
+.reminder-card {
+    display: flex;
+    flex-direction: column;
+    height: auto; 
+    overflow: hidden;
+
+    background-color: var(--cor-fundo-card);
+    border-radius: var(--raio-borda);
+    border: 1px solid var(--cor-borda);
+    box-shadow: var(--cor-sombra);
+    transition: transform .25s, box-shadow .25s;
+}
+
+/* HEADER FIXO */
+.reminder-card > .card-header {
+    padding: 14px 18px;
+    flex-shrink: 0;
+    background: var(--cor-fundo-card);
+    border-bottom: 1px solid var(--cor-borda);
+    z-index: 5;
+}
+
+.reminder-card .card-body {
+    flex: 1;
+    min-height: 250px; 
+    max-height: 250px; 
+    overflow-y: auto;
+}
+
+/* FOOTER FIXO EMBAIXO */
+.reminder-card > .card-footer {
+    margin-top: auto;
+    flex-shrink: 0;
+
+    background-color:  #dbeaf6; /* dbe6ef */
+    border-top: 1px solid var(--cor-borda);
+    padding: 14px 18px;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+
+/* BOTÕES ALINHADOS */
+.btn-group-actions {
+    display: flex;
+    gap: 12px;
+}
+
+.reminder-card:hover {
+    transform: translateY(-8px);
+    box-shadow: var(--cor-sombra-hover);
+}
+
+.priority-low, .priority-medium, .priority-high {
+    border-left: none;
+    position: relative;
+}
+
+.priority-low::before, .priority-medium::before, .priority-high::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 8px;
+    z-index: 2;
+    border-top-left-radius: var(--raio-borda);
+    border-top-right-radius: var(--raio-borda);
+}
+
+.priority-low::before { background-color: var(--cor-prioridade-baixa); }
+.priority-medium::before { background-color: var(--cor-prioridade-media); }
+.priority-high::before { background-color: var(--cor-prioridade-alta); }
+
+body.dark .reminder-card .card-footer {
+     background-color: #0d1117; 
+     border-top: none !important; 
+     box-shadow: 0 -2px 5px -5px rgba(255, 255, 255, 0.05);
+}
+
+
+/* Card Concluído */
+.card.completed {
+    opacity: 0.5;
+    filter: grayscale(80%);
+}
+
+.card.completed .btn-outline-primary,
+.card.completed .btn-danger {
+    opacity: 0.3; 
+    cursor: not-allowed; 
+    pointer-events: none; 
+}
+
+.card.completed .checklist-list {
+    pointer-events: none; 
+    opacity: 0.7;
+}
+
+.card.completed .btn-outline-success {
+    opacity: 1; 
+    cursor: pointer; 
+    pointer-events: auto; 
+}
+
+
+/*
+ * ----------------------------------------------------
+ * 6. CHECKLIST MODERNA (Contorno, Preenchimento e Sombra)
+ * ----------------------------------------------------
+ */
+
+.checklist-list {
+    list-style: none;
+    padding-left: 0;
+    margin-top: 15px;
+}
+
+/* Regra para o <li> (o retângulo) - Aplica-se a AMBOS (card e modal) */
+.checklist-list li {
+    display: flex;
+    align-items: center;
+    margin-bottom: 12px;
+    padding: 12px 15px !important; /* Padding interno forçado */
+    border: 1px solid var(--cor-borda);
+    border-radius: 8px;
+    background-color: var(--cor-fundo);
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+    transition: all 0.2s;
+}
+
+body.dark .checklist-list li {
+    background-color: #1e242c;
+    border-color: #384250;
+    box-shadow: 0 2px 5px rgba(255, 255, 255, 0.01);
+}
+
+/* Regra APENAS para o checkbox do CARD (Bug 2) */
+.reminder-card .checklist-list input[type="checkbox"] {
+    min-width: 18px;
+    min-height: 18px;
+    cursor: pointer;
+    appearance: none;
+    border: 2px solid var(--cor-acento-principal);
+    border-radius: 4px;
+    transition: background-color 0.2s, border-color 0.2s;
+    position: relative;
+    top: 0; 
+    margin: 0 !important; 
+    flex-shrink: 0; 
+}
+
+.reminder-card .checklist-list input[type="checkbox"]:checked {
+    background-color: var(--cor-acento-principal);
+    border-color: var(--cor-acento-principal);
+}
+
+.reminder-card .checklist-list input[type="checkbox"]:checked::before {
+    content: '✓';
+    display: block;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-size: 14px;
+    color: white;
+}
+
+/* Regra APENAS para o texto do CARD (Bug 2) */
+.reminder-card .checklist-list .form-check-label {
+    margin-left: 12px !important;
+}
+
+
+/*
+ * ----------------------------------------------------
+ * 7. OUTROS ELEMENTOS (Botões, Filtros)
+ * ----------------------------------------------------
+ */
+
+.btn {
+    padding: 12px 24px;
+    border-radius: 10px;
+    font-weight: 700;
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
+    transition: all 0.25s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+}
+
+.btn-primary, #add-btn {
+    background-color: var(--cor-acento-principal);
+    color: white;
+    box-shadow: 0 4px 10px rgba(13, 110, 253, 0.3);
+}
+
+.btn-primary:hover, #add-btn:hover {
+    background-color: var(--cor-acento-hover);
+    transform: translateY(-2px);
+    box-shadow: 0 6px 15px rgba(13, 110, 253, 0.4);
+}
+
+#category-filter-container {
+    position: static; 
+    z-index: auto;
+}
+
+.category-badge {
+    display: inline-block;
+    padding: 4px 10px;
+    font-size: 0.8rem;
+    font-weight: 600;
+    background-color: var(--cor-borda);
+    color: var(--cor-texto-secundario);
+    border-radius: 20px;
+    margin-right: 5px;
+    margin-top: 5px;
+}
+body.dark .category-badge {
+    background-color: var(--cor-fundo-input);
+    color: var(--cor-texto-secundario);
+}
+
+
+/*
+ * ----------------------------------------------------
+ * 8. MODAL E OVERLAY (ADICIONADO)
+ * ----------------------------------------------------
+ */
+
+body.modal-open {
+    overflow: hidden;
+}
+
+#modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.6);
+    z-index: 1040; 
+    opacity: 0;
+    visibility: hidden; 
+    transition: opacity var(--tempo-transicao);
+}
+
+#modal-overlay.active {
+    opacity: 1;
+    visibility: visible;
+}
+
+/*
+ * ----------------------------------------------------
+ * 9. BOTÃO ADICIONAR LEMBRETE (MODERNO E SOFISTICADO)
+ * ----------------------------------------------------
+ */
+
+#add-reminder-btn {
+    position: fixed;
+    bottom: 30px;
+    right: 30px;
+    z-index: 1000;
+    min-width: 60px;
+    height: 60px;
+    padding: 0; 
+    border-radius: 50%; 
+    background: linear-gradient(135deg, var(--cor-acento-principal), var(--cor-acento-hover));
+    color: white;
+    border: none;
+    font-size: 1.5rem; 
+    font-weight: 600;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px; 
+    cursor: pointer;
+    box-shadow: 0 8px 20px rgba(13, 110, 253, 0.3), 0 4px 6px rgba(0, 0, 0, 0.1); 
+    transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1); 
+}
+
+#add-reminder-btn:hover {
+    transform: translateY(-5px) scale(1.05); 
+    box-shadow:
+        0 15px 30px rgba(13, 110, 253, 0.4), 
+        0 5px 15px rgba(0, 0, 0, 0.1); 
+    filter: brightness(1.1);
+}
+
+#add-reminder-btn:active {
+    transform: translateY(-2px) scale(0.98); 
+    box-shadow: 0 5px 15px rgba(13, 110, 253, 0.3); 
+    transition-duration: 0.1s; 
+}
+
+@keyframes pulse-refined {
+    0% {
+        box-shadow: 0 0 0 0 rgba(13, 110, 253, 0.6);
+    }
+    70% {
+        box-shadow: 0 0 0 20px rgba(13, 110, 253, 0);
+    }
+    100% {
+        box-shadow: 0 0 0 0 rgba(13, 110, 253, 0);
+    }
+}
+
+#add-reminder-btn.animate-pulse {
+    animation: pulse-refined 2s infinite;
+}
+
+body.dark #add-reminder-btn {
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.5), 0 0 10px rgba(13, 110, 253, 0.5);
+}
+
+body.dark #add-reminder-btn:hover {
+    box-shadow: 0 15px 35px rgba(0, 0, 0, 0.7), 0 0 20px rgba(13, 110, 253, 0.7);
+    filter: brightness(1.2); 
+}
+
+/*
+ * ----------------------------------------------------
+ * 10. BARRA DE NAVEGAÇÃO SUPERIOR (NOVO)
+ * ----------------------------------------------------
+ */
+
+#app-top-bar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 70px; 
+    background-color: var(--cor-fundo-card);
+    border-bottom: 1px solid var(--cor-borda);
+    box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+    z-index: 1020; 
+    display: flex;
+    align-items: center;
+    justify-content: space-between; 
+    padding: 0 25px; 
+    transition: background-color var(--tempo-transicao), border-color var(--tempo-transicao);
+}
+
+.top-bar-left, .top-bar-right {
+    display: flex;
+    align-items: center;
+    gap: 15px; 
+}
+
+#app-top-bar select,
+#app-top-bar .btn,
+#app-top-bar button {
+    margin: 0 !important; 
+    height: 40px; 
+    padding: 0 15px;
+    display: flex;
+    align-items: center;
+    min-width: 40px;
+    justify-content: center;
+}
+
+#app-top-bar #category-filter {
+    min-width: 180px;
+    justify-content: flex-start;
+}
+
+#app-top-bar h3 {
+    margin: 0;
+    font-size: 1.3rem;
+    color: var(--cor-acento-principal);
+}
+
+/*
+ * ----------------------------------------------------
+ * 11. ✅ SEÇÃO DE CORREÇÕES DE BUGS (Checklist do Modal)
+ * ----------------------------------------------------
+ */
+
+/* * ✅ CORREÇÃO (Bug 1): Checkbox do Modal pré-marcado
+ *
+ * O seletor '.checklist-list' era muito genérico.
+ * Esta nova regra usa alta especificidade para isolar
+ * APENAS os checkboxes DENTRO do modal.
+ */
+
+/* 1. Define o estado base (VAZIO) para o checkbox do MODAL */
+#checklist-items > li .form-check-input {
+    min-width: 18px;
+    min-height: 18px;
+    cursor: pointer;
+    appearance: none;
+    border: 2px solid var(--cor-acento-principal);
+    border-radius: 4px;
+    transition: background-color 0.2s, border-color 0.2s;
+    position: relative;
+    top: 0;
+    margin: 0 !important; 
+    background-color: var(--cor-fundo-input) !important; /* FORÇA o fundo a ser branco/vazio */
+    flex-shrink: 0; /* (Correção Bug 2) */
+}
+
+/* 2. Define o estado MARCADO (SÓ quando :checked) */
+#checklist-items > li .form-check-input:checked {
+    background-color: var(--cor-acento-principal) !important;
+    border-color: var(--cor-acento-principal);
+}
+
+/* 3. Adiciona o '✓' SÓ quando :checked */
+#checklist-items > li .form-check-input:checked::before {
+    content: '✓';
+    display: block;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-size: 14px;
+    color: white;
+}
+
+/* * ✅ CORREÇÃO (Bug 2): Layout Quebrado no Modal
+ *
+ * Força o <li> (o .d-flex) a não quebrar linha e
+ * anula o 'width: 100%' global do .form-control
+ */
+
+/* 1. Força o <li> a não quebrar linha e adiciona espaço */
+#checklist-items > li {
+    flex-wrap: nowrap !important;
+    gap: 10px; /* Adiciona espaço entre os 3 itens */
+}
+
+/* 2. O Input de texto: cresce, encolhe, e anula o 'width: 100%' */
+#checklist-items .form-control {
+    flex: 1; /* Cresce e encolhe */
+    min-width: 0; /* Permite encolher abaixo do conteúdo */
+    width: auto !important; /* ANULA o 'width: 100%' global */
+}
+
+/* 3. O Botão de Lixo: não encolhe */
+#checklist-items .btn {
+    flex-shrink: 0;
+}
+
+/* * Bloco para cores do dark mode (mantido)
+ */
+body.dark #category-filter,
+body.dark #priority,
+body.dark #category {
+    background-color: var(--cor-fundo-input);
+    color: var(--cor-texto-principal);
+    border-color: var(--cor-borda);
+}
+
+body.dark option {
+    background-color: var(--cor-fundo-input);
+    color: var(--cor-texto-principal);
+}   
+
+
+#chat-window {
+    position: fixed;
+    right: 25px;
+    bottom: 25px;
+    width: 330px;
+    height: 450px;
+    background: white;
+    border-radius: 12px;
+    border: 1px solid #ccc;
+    box-shadow: 0 5px 20px rgba(0,0,0,0.25);
+    display: flex;
+    flex-direction: column;
+  }
+  
+  #chat-output {
+    flex: 1;
+    padding: 10px;
+    overflow-y: auto;
+  }
+  
+  .client-msg {
+    background: #daf0ff;
+    padding: 8px;
+    border-radius: 7px;
+    margin-bottom: 6px;
+    align-self: flex-end;
+  }
+  
+  .bot-msg {
+    background: #f4f4f4;
+    padding: 8px;
+    border-radius: 7px;
+    margin-bottom: 6px;
+    align-self: flex-start;
+  }
+
+  /*
+ * ----------------------------------------------------
+ * 12. CORREÇÃO BOTÃO '+' NO INPUT-GROUP (v4 - Específico)
+ * ----------------------------------------------------
+ */
+
+/* * Este seletor é perfeito:
+ * Ele só vai estilizar um .btn que está em um .input-group-append
+ * QUE VEM LOGO APÓS (o '+') o elemento com ID #category.
+ * Isso ignora todos os outros botões.
+ */
+#category + .input-group-append .btn {
+    
+    /* 1. FORÇA a remoção do padding global */
+    padding-left: 0 !important;
+    padding-right: 0 !important;
+    padding-top: 0 !important;
+    padding-bottom: 0 !important;
+
+    /* 2. Define uma LARGURA fixa. A altura será automática. */
+    width: 42px; 
+    min-width: 42px; 
+
+    /* 3. FORÇA a remoção dos estilos de texto do .btn global */
+    text-transform: none !important;
+    letter-spacing: normal !important;
+
+    /* 4. Garante que o ícone fique centrado */
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+}
+
+/*
+ * ----------------------------------------------------
+ * 13. AJUSTE BOTÕES 'SALVAR/CANCELAR' CATEGORIA
+ * ----------------------------------------------------
+ */
+
+/*
+ * Este seletor afeta APENAS os botões (Salvar/Cancelar)
+ * dentro do container de adicionar nova categoria.
+ * Ele é mais específico que a regra global .btn,
+ * então ele vai "vencer" a disputa de estilos.
+ */
+#new-category-container .input-group-append .btn {
+    
+    /* 1. Reduz o padding. 
+       O seu .btn global tinha "12px 24px".
+       Isto vai diminuir a altura e a largura dos botões. */
+    padding: 6px 12px;
+
+    /* 2. Reduz o tamanho da fonte para caber no botão menor */
+    font-size: 0.875rem; /* 14px */
+
+    /* 3. Reduz o espaçamento entre letras 
+       (O seu .btn global tinha 0.5px) */
+    letter-spacing: normal;
+    
+    /* 4. Ajusta a altura da linha para o novo font-size */
+    line-height: 1.5; 
+}
+
+/*
+ * ----------------------------------------------------
+ * 14. AJUSTE BOTÃO 'ADICIONAR' CHECKLIST
+ * ----------------------------------------------------
+ */
+#checklist-container .input-group-append .btn {
+    
+    /* ... (as 4 regras de padding, font-size, etc. ficam aqui) ... */
+    padding: 6px 12px;
+    font-size: 0.875rem; 
+    letter-spacing: normal;
+    line-height: 1.5; 
+
+    /* 👇 ADICIONE ESTAS DUAS LINHAS AQUI 👇 */
+    border-top-left-radius: 10px !important;
+    border-bottom-left-radius: 10px !important;
+}
+
+/*
+ * ----------------------------------------------------
+ * 15. CORREÇÃO: Espaçamento VERTICAL (para baixo)
+ * ----------------------------------------------------
+ */
+
+/* * Adiciona uma margem ACIMA do 'bloco de botões',
+ * separando-o verticalmente do campo de input.
+ */
+ 
+/* Alvo: Bloco "Salvar/Cancelar" */
+#new-category-container .input-group-append {
+    margin-top: 11px; /* <-- Adiciona 8px de espaço acima */
+}
+
+/* Alvo: Bloco "Adicionar" */
+#checklist-container .input-group-append {
+    margin-top: 11px; /* <-- Adiciona 8px de espaço acima */
+}
+
+/*
+ * ----------------------------------------------------
+ * 16. ARREDONDAR CANTO ESQUERDO DO BOTÃO "SALVAR"
+ * ----------------------------------------------------
+ */
+#new-category-container .input-group-append .btn-success {
+    border-top-left-radius: 10px !important;
+    border-bottom-left-radius: 10px !important;
+}
+
+/*
+ * ----------------------------------------------------
+ * 17. SCROLLBAR ESTILIZADA (CARDS)
+ * ----------------------------------------------------
+ */
+
+/* Chrome, Edge, Opera, Brave */
+.reminder-card .card-body::-webkit-scrollbar {
+    width: 10px;
+}
+
+.reminder-card .card-body::-webkit-scrollbar-track {
+    background: var(--card-bg);
+    border-radius: 10px;
+}
+
+.reminder-card .card-body::-webkit-scrollbar-thumb {
+    background: var(--primary-color);
+    border-radius: 10px;
+    border: 2px solid var(--card-bg);
+}
+
+.reminder-card .card-body::-webkit-scrollbar-thumb:hover {
+    background: var(--primary-color-light);
+}
+
+/* ===== FIREFOX ===== */
+.reminder-card .card-body {
+    scrollbar-width: thin;
+    scrollbar-color: var(--primary-color) var(--card-bg);
+}
+
+/* 1. Define a largura da barra (O segredo para ela ficar fina) */
+#form-area::-webkit-scrollbar {
+    width: 8px; /* Largura total da barra */
+}
+
+/* 2. O "Trilho" (Fundo da barra) */
+#form-area::-webkit-scrollbar-track {
+    background: transparent; /* Fundo transparente para ficar limpo */
+    margin: 10px 0; /* Um pequeno respiro nas pontas (opcional) */
+}
+
+/* 3. A "Pega" (A parte azul que se move) */
+#form-area::-webkit-scrollbar-thumb {
+    background-color: var(--cor-acento-principal); /* O seu azul padrão (#0d6efd) */
+    border-radius: 20px;       /* Deixa totalmente arredondada (pílula) */
+    border: 2px solid var(--cor-fundo-card); /* Cria uma borda da cor do fundo para dar efeito de "flutuar" */
+}
+
+/* 4. Efeito ao passar o mouse na barra */
+#form-area::-webkit-scrollbar-thumb:hover {
+    background-color: var(--cor-acento-hover); /* Azul levemente mais escuro */
+}
+
+/* Barra colorida superior */
+.reminder-color-bar {
+  height: 6px;
+  width: 100%;
+  display: block;
+  border-top-left-radius: 8px;
+  border-top-right-radius: 8px;
+  box-sizing: border-box;
+  /* garantir que fique acima do conteúdo, se seu .card tiver overflow: hidden,
+     então a barra será visível naturalmente */
+}
+
+/* --- BOTÃO USUÁRIO --- */
+.user-dropdown-btn {
+    padding: 8px 14px;
+    background: #ffffff;
+    border: 1px solid #d5d8df;
+    border-radius: 12px;
+    cursor: pointer;
+    font-weight: 500;
+    transition: 0.2s;
+}
+
+.user-dropdown-btn:hover {
+    background: #eef1f6;
+}
+
+/* Estilo quando o botão é clicado/focado */
+.user-dropdown-btn:focus, 
+.user-dropdown-btn:active {
+    outline: none !important;
+    border: 1px solid #579afe !important; 
+    box-shadow: 0 0 0 0.25rem #b9deff !important;
+}
+
+/* --- PAINEL DO USUÁRIO --- */
+#user-panel {
+    position: absolute;
+    top: auto;
+    right: 0;
+    width: 350px;
+    background: #ffffff;
+    border-radius: 14px;
+    border: 1px solid #d4d7dd;
+    box-shadow: 0 8px 18px rgba(0,0,0,0.12);
+    padding: 15px 18px;
+    z-index: 9999;
+    animation: fadeIn 0.15s ease-out;
+}
+
+#user-panel.hidden {
+    display: none;
+}
+
+#user-panel h4 {
+    margin: 0 0 5px 0;
+    font-size: 17px;
+    font-weight: bold;
+}
+
+#user-panel p {
+    margin: 4px 0;
+    font-size: 14px;
+    color: #444;
+}
+
+.user-action {
+    width: 100%;
+    margin-top: 8px;
+    padding: 8px 12px;
+    background: #f3f5f7;
+    border: none;
+    border-radius: 10px;
+    text-align: left;
+    cursor: pointer;
+    transition: 0.2s;
+}
+
+.user-action:hover {
+    background: #e4e7eb;
+}
+
+/* Animação suave */
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(-5px); }
+    to   { opacity: 1; transform: translateY(0); }
+}
+
+/* Painel padrão (modo claro) */
+#user-panel {
+    position: absolute;
+    right: 0;
+    top: 50px;
+    width: 300px;
+    background: #eaf3fb;
+    border-radius: 10px;
+    border: 1px solid #ddd;
+    padding: 15px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+    z-index: 9999;
+    transition: background 0.2s, color 0.2s, border 0.2s;
+}
+
+#user-panel.hidden {
+    display: none;
+}
+
+/* -------------------------- */
+/*        🌙 MODO ESCURO       */
+/* -------------------------- */
+.dark #user-panel {
+    background: #21262d;
+    border: 1px solid #444;
+    color: #f1f1f1;
+}
+
+.dark #user-panel h4,
+.dark #user-panel p {
+    color: #f1f1f1;
+}
+
+/* Botão padrão (modo claro) */
+#user-btn {
+    background: #f2faff;
+    color: #222;
+    padding: 10px 16px;
+    border-radius: 8px;
+    border: 1px solid #ccc;
+    cursor: pointer;
+    transition: background 0.2s, color 0.2s, border 0.2s;
+}
+
+/* Hover */
+#user-btn:hover {
+    background: #eaf3f9;
+}
+
+/* 🌙 Botão em modo escuro */
+.dark-btn {
+    background: #21262d !important;
+    color: #f1f1f1 !important;
+    border: 1px solid #555 !important;
+}
+
+.dark-btn:hover {
+    background: #21262d !important;
+}
+
+/* Estilização do botão de Resetar Senha */
+.btn-reset {
+    background-color: #0d6efd;
+    color: white;
+}
+
+
+
+/* =====================================================
+   🚀 TOAST NOTIFICATION
+   ===================================================== */
+
+#snackbar {
+    visibility: hidden;
+    min-width: 320px; /* Um pouco mais largo para elegância */
+    max-width: 90%;   /* Responsivo no mobile */
+    
+    /* Centralização Absoluta */
+    position: fixed;
+    left: 50%;
+    bottom: 40px; /* Começa um pouco mais baixo */
+    transform: translateX(-50%);
+    
+    /* Estilo Glassmorphism (Vidro Fosco) */
+    background-color: rgba(30, 30, 30, 0.85); /* Fundo escuro transparente */
+    backdrop-filter: blur(12px); /* O desfoque mágico atrás do elemento */
+    -webkit-backdrop-filter: blur(12px); /* Para Safari */
+    
+    /* Tipografia e Bordas */
+    color: #fff;
+    text-align: center;
+    border-radius: 50px; /* Formato de pílula sofisticado */
+    padding: 14px 28px;
+    font-family: var(--fonte-principal);
+    font-size: 15px;
+    font-weight: 500;
+    letter-spacing: 0.5px;
+    
+    /* Profundidade e Acabamento */
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2); /* Sombra suave */
+    border: 1px solid rgba(255, 255, 255, 0.1); /* Borda sutil brilhante */
+    z-index: 10000; /* Garante que fique acima de tudo */
+    
+    /* Estado inicial para animação */
+    opacity: 0;
+    transition: all 0.5s cubic-bezier(0.68, -0.55, 0.27, 1.55); /* Efeito elástico suave */
+}
+
+/* --- Quando o aviso aparece --- */
+#snackbar.show {
+    visibility: visible;
+    opacity: 1;
+    bottom: 60px; /* Ele sobe um pouco quando aparece */
+}
+
+/* --- Variação: ERRO (Vermelho Sofisticado) --- */
+#snackbar.error {
+    background-color: rgba(220, 53, 69, 0.85); /* Vermelho Bootstrap Transparente */
+    box-shadow: 0 10px 30px rgba(220, 53, 69, 0.3); /* Glow vermelho */
+    border: 1px solid rgba(255, 200, 200, 0.2);
+}
+
+/* --- Variação: SUCESSO / PADRÃO (Verde ou Escuro) --- */
+#snackbar.success {
+    background-color: rgba(25, 135, 84, 0.85); /* Verde Bootstrap Transparente */
+    box-shadow: 0 10px 30px rgba(25, 135, 84, 0.3); /* Glow verde */
+    border: 1px solid rgba(200, 255, 200, 0.2);
+}
+
+/* --- Animação (Keyframes Opcionais para reforçar) --- */
+@keyframes slideUpFade {
+    from {
+        bottom: 30px;
+        opacity: 0;
+    }
+    to {
+        bottom: 60px;
+        opacity: 1;
+    }
+}
+
+/* =====================================================
+   💎 TOAST NOTIFICATION (PREMIUM GLASS)
+   ===================================================== */
+
+#snackbar {
+    visibility: hidden;
+    min-width: 300px;
+    background-color: rgba(30, 30, 30, 0.8); /* Fallback escuro */
+    
+    /* Centralização e Posição Inicial */
+    position: fixed;
+    z-index: 9999;
+    left: 50%;
+    bottom: 30px; /* Começa aqui */
+    transform: translateX(-50%) scale(0.9); /* Começa levemente menor */
+    
+    /* Texto e Tipografia */
+    color: #fff;
+    text-align: center;
+    padding: 16px 32px;
+    border-radius: 50px; /* Formato Pílula */
+    font-family: 'Inter', sans-serif; /* Ou sua fonte padrão */
+    font-size: 16px;
+    font-weight: 600;
+    letter-spacing: 0.5px;
+    
+    /* Transições suaves para saída */
+    opacity: 0;
+    transition: all 0.5s ease-in-out;
+}
+
+/* --- O ESTADO ATIVO (ANIMAÇÃO) --- */
+#snackbar.show {
+    visibility: visible;
+    opacity: 1;
+    
+    /* A Mágica: Animação Elástica (Bounce) */
+    animation: premiumSlideUp 0.6s cubic-bezier(0.68, -0.55, 0.265, 1.55) forwards;
+}
+
+/* --- VARIAÇÃO: SUCESSO (O Verde Premium que você pediu) --- */
+#snackbar.success {
+    /* Fundo Verde Transparente (Glassmorphism) */
+    background: rgba(0, 180, 80, 0.75); 
+    
+    /* O Desfoque do Vidro */
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    
+    /* Bordas e Sombras de Profundidade */
+    border: 1px solid rgba(255, 255, 255, 0.3); /* Borda fina e brilhante */
+    box-shadow: 
+        0 10px 30px rgba(0, 200, 80, 0.3), /* Glow verde */
+        0 4px 6px rgba(0, 0, 0, 0.1); /* Sombra de profundidade */
+        
+    text-shadow: 0 1px 2px rgba(0,0,0,0.1);
+}
+
+/* --- VARIAÇÃO: ERRO (Para manter o padrão visual) --- */
+#snackbar.error {
+    background: rgba(220, 50, 50, 0.75);
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    box-shadow: 0 10px 30px rgba(220, 50, 50, 0.3);
+}
+
+/* --- A ANIMAÇÃO "ELÁSTICA" (KEYFRAMES) --- */
+@keyframes premiumSlideUp {
+    0% {
+        bottom: 0px;
+        opacity: 0;
+        transform: translateX(-50%) scale(0.8);
+    }
+    70% {
+        bottom: 60px; /* Vai um pouco mais alto (overshoot) */
+        opacity: 1;
+        transform: translateX(-50%) scale(1.05); /* Aumenta um pouco */
+    }
+    100% {
+        bottom: 50px; /* Assenta na posição final */
+        opacity: 1;
+        transform: translateX(-50%) scale(1);
+    }
+}
+
+/* =====================================================
+   🗑️ MODAL DE CONFIRMAÇÃO PREMIUM (Exclusão)
+   ===================================================== */
+
+/* O Fundo Escuro (Overlay) */
+#custom-confirm-overlay {
+    display: none; /* Oculto por padrão */
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.6); /* Escuro semi-transparente */
+    backdrop-filter: blur(8px); /* Desfoque no fundo todo */
+    -webkit-backdrop-filter: blur(8px);
+    z-index: 10001; /* Acima de tudo, até do Toast */
+    align-items: center;
+    justify-content: center;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+#custom-confirm-overlay.active {
+    display: flex;
+    opacity: 1;
+}
+
+/* A Janela (Card) */
+.confirm-box {
+    background: rgba(30, 30, 30, 0.95);
+    width: 90%;
+    max-width: 400px;
+    padding: 30px;
+    border-radius: 24px;
+    text-align: center;
+    box-shadow: 0 20px 50px rgba(0,0,0,0.5);
+    border: 1px solid rgba(255,255,255,0.1);
+    transform: scale(0.8);
+    transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275); /* Efeito Pop */
+}
+
+#custom-confirm-overlay.active .confirm-box {
+    transform: scale(1);
+}
+
+/* Ícone e Textos */
+.confirm-icon {
+    font-size: 40px;
+    margin-bottom: 15px;
+    display: block;
+}
+
+.confirm-title {
+    color: #fff;
+    font-size: 22px;
+    margin-bottom: 10px;
+    font-weight: 700;
+}
+
+.confirm-desc {
+    color: #bbb;
+    font-size: 15px;
+    margin-bottom: 25px;
+    line-height: 1.5;
+}
+
+/* Área dos Botões */
+.confirm-actions {
+    display: flex;
+    justify-content: center;
+    gap: 15px;
+}
+
+.confirm-btn {
+    padding: 12px 24px;
+    border-radius: 12px;
+    font-size: 15px;
+    font-weight: 600;
+    cursor: pointer;
+    border: none;
+    transition: transform 0.2s, filter 0.2s;
+}
+
+.confirm-btn:active {
+    transform: scale(0.95);
+}
+
+/* Botão Cancelar */
+.btn-cancel-modal {
+    background: transparent;
+    border: 1px solid rgba(255,255,255,0.2);
+    color: #fff;
+}
+.btn-cancel-modal:hover {
+    background: rgba(255,255,255,0.1);
+}
+
+/* Botão Excluir*/
+.btn-delete-modal {
+    background: #dc3545; /* Vermelho base */
+    color: white;
+    box-shadow: 0 5px 15px rgba(220, 53, 69, 0.4);
+}
+.btn-delete-modal:hover {
+    background: #bb2d3b;
+    box-shadow: 0 8px 20px rgba(220, 53, 69, 0.6);
+}
+
+#category-filter:focus {
+    outline: none;
+    box-shadow: 0 0 0 0.2rem #b9deff;
+    border-color: #3fa4fc;
+}
+
+/* --- CORREÇÃO DE FOCO NO MODO ESCURO --- */
+
+body.dark .user-dropdown-btn:focus,
+body.dark .user-dropdown-btn:active {
+    
+    border: 1px solid #4c6b9a !important;
+    box-shadow: 0 0 0 0.25rem #0d6efd4d !important;
+}
+
+body.dark #category-filter:focus,
+body.dark #category-filter:active {
+   
+    border: 1px solid #4c6b9a !important;
+    box-shadow: 0 0 0 0.25rem #0d6efd4d !important;
+}

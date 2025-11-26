@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>📝 Lembraê</title>
+
+  <!-- CSS do sistema -->
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link rel="stylesheet" href="css/styles.css" />
+
+  <!-- CSS do chatbot -->
+  <link rel="stylesheet" href="css/chatbot.css">
+</head>
+
+<body class="my-login-page body-enter">
+
+<!-- ------------------- MENU SUPERIOR ------------------- -->
+<nav id="app-top-bar">
+  <div class="top-bar-left" style="display: flex; align-items: center;">
+    <img src="img/logo.png" alt="Logo Lembraê" style="height: 60px; width: auto; border-radius: 50%;">
+  </div>
+
+  <div class="top-bar-right">
+    <select id="category-filter" class="form-control" style="width: auto; display: inline-block;">
+        <option value="all">📂 Todas as categorias</option>
+    </select>
+
+    <button id="dark-mode-btn" class="btn btn-outline-secondary" onclick="toggleDarkMode()">
+      <i class="fas fa-moon"></i>
+    </button>
+
+    <div id="user-wrapper" style="position: relative;">
+      <button id="user-btn" class="user-dropdown-btn">
+          👤 Usuário ▼
+      </button>
+  
+      <div id="user-panel" class="hidden">
+          <h4>👤 <span id="panel-name">Carregando...</span></h4>
+          <p><strong>Email:</strong> <span id="panel-email">Carregando...</span></p>
+          <p><strong>Nascimento:</strong> <span id="panel-birth">Carregando...</span></p>
+          <p><strong>Criação da Conta:</strong> <span id="panel-created">Carregando...</span></p>
+          <div style="margin-top: 15px;">
+            <a href="reset.html" class="btn btn-reset btn-sm btn-block">
+                Resetar Senha 🔐
+            </a>
+        </div>        
+      </div>
+    </div>
+    
+
+    <button id="logout-btn" class="btn btn-outline-danger" onclick="logoff()">
+      🚪 Sair
+    </button>
+  </div>
+</nav>
+
+<!-- ------------------- ÁREA PRINCIPAL ------------------- -->
+<div id="main-content-wrapper">
+  <div id="reminder-list"></div>
+</div>
+
+<button id="add-reminder-btn" onclick="showForm()" title="Adicionar Novo Lembrete">
+  <i class="fas fa-plus"></i>
+</button>
+
+<!-- ------------------- FORMULÁRIO ------------------- -->
+<div id="form-area" class="card">
+  <div class="card-body">
+    <h4 id="form-title" class="card-title text-center mb-4">Novo Lembrete</h4>
+
+    <input type="hidden" id="id" />
+
+    <div class="form-group">
+      <label for="title">Título</label>
+      <input type="text" id="title" class="form-control" placeholder="Digite o título do lembrete" required />
+    </div>
+
+    <div class="form-row">
+      <div class="form-group col-md-6">
+        <label for="date">Data</label>
+        <input type="date" id="date" class="form-control" required />
+      </div>
+      <div class="form-group col-md-6">
+        <label for="time">Hora</label>
+        <input type="time" id="time" class="form-control" required />
+      </div>
+    </div>
+
+    <div class="form-row">
+      <div class="form-group col-md-6">
+        <label for="priority">Prioridade</label>
+        <select id="priority" class="form-control">
+          <option value="low">🔵 Baixa</option>
+          <option value="medium">🟠 Média</option>
+          <option value="high">🔴 Alta</option>
+        </select>
+      </div>
+
+      <div class="form-group col-md-6">
+        <label for="category">Categoria</label>
+        <div class="input-group">
+          <select id="category" class="form-control">
+            <option value="">Sem Categoria</option>
+          </select>
+          <div class="input-group-append">
+            <button class="btn btn-outline-secondary" type="button" onclick="showNewCategoryInput()">
+              <i class="fas fa-plus"></i>
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div id="new-category-container" class="mb-3" style="display: none;">
+      <div class="input-group">
+        <input type="text" id="new-category" class="form-control" placeholder="Nome da nova categoria">
+        <div class="input-group-append">
+          <button class="btn btn-success" type="button" onclick="addNewCategory()">Salvar</button>
+          <button class="btn btn-outline-secondary" type="button" onclick="cancelNewCategory()">Cancelar</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label>Tipo de Lembrete</label>
+    
+      <div class="btn-group btn-group-toggle w-100">
+    
+        <label id="btnDescricao" class="btn btn-outline-primary active"
+               onclick="toggleType('DESCRICAO')">
+          📝 Descrição
+        </label>
+    
+        <label id="btnChecklist" class="btn btn-outline-primary"
+               onclick="toggleType('CHECKLIST')">
+          ✅ Checklist
+        </label>
+    
+      </div>
+    
+      <input type="hidden" id="type" value="DESCRICAO">
+    </div>
+
+    <div class="form-group" id="desc-container">
+      <label for="description">Descrição Detalhada</label>
+      <textarea id="description" class="form-control" rows="4"></textarea>
+    </div>
+
+    <div class="form-group d-none" id="checklist-container">
+      <label>Itens da Checklist</label>
+      <div id="checklist-items" class="mb-2"></div>
+
+      <div class="input-group">
+        <input type="text" id="new-check" class="form-control" placeholder="Novo item..." onkeypress="if(event.key === 'Enter'){addChecklistItem();}">
+        <div class="input-group-append">
+          <button class="btn btn-secondary" type="button" onclick="addChecklistItem()">Adicionar</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="text-right mt-4">
+      <button type="button" class="btn btn-secondary mr-2" onclick="hideForm()">Cancelar</button>
+      <button type="button" class="btn btn-primary" id="submit-btn" onclick="addReminder()">Salvar Lembrete</button>
+    </div>
+  </div>
+</div>
+
+<!-- ------------------- CHATBOT ------------------- -->
+<button id="open-chatbot" class="chat-open-btn">Assistente</button>
+
+<div id="chatbot-window" class="chat-window hidden">
+    <div class="chat-header">
+        <h3>Sr. Lembraê📖</h3>
+        <button id="close-chatbot" class="close-btn">
+          <i class="fas fa-times"></i>
+      </button>
+    </div>
+
+    <div id="chatbot-messages" class="chat-messages"></div>
+
+    <div class="chat-input-area">
+        <input type="text" id="chatbot-input" placeholder="Digite sua pergunta...">
+        <button id="chatbot-send" class="send-btn">Enviar</button>
+    </div>
+</div>
+
+<!-- SCRIPTS -->
+<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+
+<script src="js/script.js"></script>
+<script src="js/chatbot.js"></script>

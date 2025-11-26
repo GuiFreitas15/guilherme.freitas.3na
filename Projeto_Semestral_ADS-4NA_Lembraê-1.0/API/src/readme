@@ -1,0 +1,54 @@
+/*Comandos para jogar no MySql*/
+
+CREATE DATABASE IF NOT EXISTS db_remider;
+USE db_remider;
+
+CREATE TABLE IF NOT EXISTS tbl_user (
+  id INT AUTO_INCREMENT PRIMARY KEY,
+  name VARCHAR(100) NOT NULL,
+  email VARCHAR(150) NOT NULL UNIQUE,
+  password VARCHAR(255) NOT NULL,
+  role VARCHAR(50) DEFAULT 'user',
+  data_criacao DATETIME DEFAULT CURRENT_TIMESTAMP,
+  data_nascimento DATE NULL,
+  palavra_chave VARCHAR(150) NULL
+);
+
+CREATE TABLE IF NOT EXISTS tbl_lembrete (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    titulo VARCHAR(255) NOT NULL,
+    descricao TEXT,
+    data DATE,
+    hora VARCHAR(50),
+    prioridade VARCHAR(50),
+    tipo_conteudo VARCHAR(50),
+    cor VARCHAR(50),
+    categorias TEXT,
+    concluido TINYINT(1) DEFAULT 0,
+    user_id INT,
+    FOREIGN KEY (user_id) REFERENCES tbl_user(id) ON DELETE CASCADE
+);
+
+CREATE TABLE IF NOT EXISTS lembrete_checklist (
+  id INT AUTO_INCREMENT PRIMARY KEY,
+  titulo VARCHAR(255),
+  text VARCHAR(255) NOT NULL,
+  checked BOOLEAN DEFAULT FALSE,
+  lembrete_id INT,
+  FOREIGN KEY (lembrete_id) REFERENCES tbl_lembrete(id) ON DELETE CASCADE
+);
+
+CREATE TABLE IF NOT EXISTS lembrete_categorias (
+  id INT AUTO_INCREMENT PRIMARY KEY,
+  nome VARCHAR(100) NOT NULL,
+  descricao VARCHAR(255),
+  user_id INT,
+  FOREIGN KEY (user_id) REFERENCES tbl_user(id) ON DELETE CASCADE
+);
+
+
+SELECT * FROM tbl_user;
+SELECT * FROM tbl_lembrete;
+SELECT * FROM lembrete_categorias;
+SELECT * FROM lembrete_checklist;
+

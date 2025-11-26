@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Cadastro - Lembraê</title>
+  
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+  
+  <link rel="stylesheet" href="css/cadastro.css">
+</head>
+
+<body class="my-login-page body-enter">
+
+  <div class="theme-switcher-wrapper">
+    <label class="theme-switch">
+        <input type="checkbox" id="theme-toggle">
+        <span class="slider round"></span>
+    </label>
+  </div>
+
+  <main class="h-100">
+    <div class="container h-100">
+      <div class="row justify-content-md-center h-100">
+        
+        <div class="card-wrapper">
+
+          <div class="brand">
+            <img src="img/logo.png" alt="Logo da Lembraê">
+          </div>
+
+          <div class="card fat card-register">
+            <div class="card-body">
+              <h4 class="card-title">Cadastrar</h4>
+              
+              <form id="registerForm" novalidate>
+
+                <div class="form-group">
+                  <label for="nome">Nome</label>
+                  <input id="nome" type="text" class="form-control" name="name" placeholder="Seu nome completo" required autofocus autocomplete="name">
+                  <div class="invalid-feedback" id="nome-error" aria-live="polite"></div>
+                </div>
+
+                <div class="form-group">
+                  <label for="Data">Data de Nascimento</label>
+                  <input id="datanasc" type="date" class="form-control" name="name" placeholder="Sua data de Nascimento" required autofocus autocomplete="datanasc">
+                  <div class="invalid-feedback" id="nome-error" aria-live="polite"></div>
+                </div>
+
+                <div class="form-group">
+                  <label for="email">E-mail</label>
+                  <input id="email" type="email" class="form-control" name="email" placeholder="seu.email@exemplo.com" required autocomplete="email">
+                  <div class="invalid-feedback" id="email-error" aria-live="polite"></div>
+                </div>
+
+                <div class="form-group">
+                  <label for="password">Senha</label>
+                  <input id="password" type="password" class="form-control" name="password" placeholder="Mínimo 8 caracteres" required autocomplete="new-password">
+                  <div class="invalid-feedback" id="password-error" aria-live="polite"></div>
+                </div>
+
+                <div class="form-group">
+                  <label for="palavra">Palavra Chave</label>
+                  <input id="palavra" type="text" class="form-control" name="palavra" placeholder="Palavra chave secreta" required autofocus autocomplete="palavra">
+                  <div class="invalid-feedback" id="nome-error" aria-live="polite"></div>
+                </div>
+
+                <div class="form-group m-0">
+                  <button type="submit" class="btn btn-primary btn-block">
+                    Registrar
+                  </button>
+                </div>
+                
+                <div class="mt-4 text-center">
+                  Já tem conta? <a href="index.html">Voltar para Login</a>
+                </div>
+
+              </form>
+            </div>
+          </div>
+
+          <div class="footer">
+            Copyright &copy; 2025 &mdash; Lembraê
+          </div>
+          
+        </div> </div> </div> </main> <script src="js/register.js"></script>
+  
+</body>
+</html>

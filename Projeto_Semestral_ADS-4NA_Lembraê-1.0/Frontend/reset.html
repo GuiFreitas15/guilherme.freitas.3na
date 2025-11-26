@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+
+<html lang="pt-BR">
+<head>
+	<meta charset="utf-8">
+	<meta name="author" content="Kodinger">
+	<meta name="viewport" content="width=device-width,initial-scale=1">
+	<title>Redefinir Senha — Lembraê</title>
+
+
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+<link rel="stylesheet" type="text/css" href="css/cadastro.css">
+
+
+</head>
+<body class="my-login-page">
+
+
+<section class="h-100">
+	<div class="container h-100">
+		<div class="row justify-content-md-center align-items-center h-100">
+			<div class="card-wrapper">
+
+				<div class="brand">
+					<img src="img/logo.png" alt="Logo Lembraê">
+				</div>
+
+				<div class="card fat">
+					<div class="card-body">
+
+						<h4 class="card-title">Redefinir Senha</h4>
+
+						<form id="resetForm" novalidate>
+
+							<!-- Nova Senha -->
+							<div class="form-group">
+								<label for="newPassword">Nova Senha</label>
+								<input 
+									id="newPassword"
+									type="password"
+									class="form-control"
+									required
+								>
+								<div class="invalid-feedback">
+									A senha é obrigatória.
+								</div>
+							</div>
+
+							<!-- Confirmar Senha -->
+							<div class="form-group">
+								<label for="confirmPassword">Confirmar Senha</label>
+								<input 
+									id="confirmPassword"
+									type="password"
+									class="form-control"
+									required
+								>
+								<div class="invalid-feedback">
+									As senhas não coincidem.
+								</div>
+							</div>
+
+							<!-- Botão -->
+							<div class="form-group m-0">
+								<button type="submit" class="btn btn-primary btn-block">
+									Redefinir Senha
+								</button>
+							</div>
+
+						</form>
+
+					</div>
+				</div>
+
+				<div class="footer">
+					Copyright © 2025 — Lembraê
+				</div>
+
+			</div>
+		</div>
+	</div>
+</section>
+
+<!-- Carrega o script de reset -->
+<script src="js/reset.js"></script>
+
+
+</body>
+</html>
